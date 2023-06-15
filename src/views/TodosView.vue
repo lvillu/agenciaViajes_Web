@@ -17,7 +17,6 @@
             {{ item.siglas }}
         </h4>
         </router-link>
-        <button @click="actualizarOperador(item._id)"> Actualizar Operador </button>
     </div>
   </div>
 </template>

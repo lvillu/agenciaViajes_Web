@@ -1,6 +1,12 @@
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 
 const getOperadores = () => {
+
+    const route = useRoute();
+    const router = useRouter();
+    const operadorId = computed( () => route.params._id);
+
     const state = ref({
         nOperador: '',
         nSiglas: '',
@@ -13,6 +19,19 @@ const getOperadores = () => {
                 .then(res => res.json())
                 .then(data => {
                     state.value.operadores = data.data
+                })
+        } catch (err) {
+            console.log(err);
+        }
+    }
+
+    const operador = ref({});
+    const getOperador = async () => {
+        try {
+            await fetch("http://localhost:9005/api/v1/operadores/operador/"+operadorId.value)
+                .then(res => res.json())
+                .then(data => {
+                    operador.value = data.data
                 })
         } catch (err) {
             console.log(err);
@@ -41,22 +60,23 @@ const getOperadores = () => {
         }
     }
 
-    const actualizarOperador = async (id) => {
+    const actualizarOperador = async () => {
         const options = {
             method: "PUT",
             headers: {
                 "Content-Type": "application/json",
             },
             body : JSON.stringify({
-                nombre : "Prueba", siglas: "TEST"
+                nombre :  state.value.nOperador, siglas: state.value.nSiglas
             })
         };
         try {
-            await fetch("http://localhost:9005/api/v1/operadores/operador/" + id, options)
-                .then(res => res.json())
-                .then(data => {
-                    state.value.operadores = data.data
+            await fetch("http://localhost:9005/api/v1/operadores/operador/" + operadorId.value, options)
+                .then(res => res.body)
+                .then(res => {
+                    console.log("Funciono", res)
                 })
+                router.push("/todos")
         } catch (err) {
             console.log(err);
         }
@@ -64,6 +84,8 @@ const getOperadores = () => {
 
     return { 
         state, 
+        operador,
+        getOperador,
         getAllOperadores,
         agregarOperador,
         actualizarOperador
