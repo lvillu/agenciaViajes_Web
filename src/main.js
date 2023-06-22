@@ -5,7 +5,8 @@ import { createPinia } from 'pinia'
 
 
 /* Aqui se pueden poner los estilos para el portal (personales, templeate, material) */ 
- import 'bootstrap/dist/css/bootstrap.css';
+ import 'bootstrap/dist/css/bootstrap.css'
+ import "bootstrap"
 
 const app = createApp(App);
 
