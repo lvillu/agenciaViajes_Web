@@ -64,14 +64,12 @@
         passwordConfirm: ""
     })
 
-
     const errorMessage = ref()
 
     async function submit(){
         await authStore.register(registerData)
         .then( res => {
             router.replace({name : 'Login'})
-            console.log("Res", res)
         }).catch( err => {
             errorMessage.value = err.message
             return errorMessage

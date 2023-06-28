@@ -3,7 +3,7 @@
         <div class="container">
             <div class="card card-body mt-4">
                 <h5 class="card-title">Login</h5>
-                <form @submit.prevent="submit">
+                <form @submit.prevent="loginFunc">
                     <div class="mb-3">
                         <label for="email" class="form-label">Email address</label>
                         <input type="email" v-model="loginData.email" class="form-control" id="email" autocomplete="off">
@@ -40,7 +40,8 @@
 
     const errorMessage = ref()
 
-    async function submit(){
+    async function loginFunc(){
+        console.log("Hola", loginData)
         await authStore.login(loginData)
         .then( res => {
             router.replace({name : 'user'})
