@@ -2,10 +2,24 @@
     <div id="register">
         <div class="container">
             <div class="card card-body mt-4">
+                <h5 class="card-title">Register</h5>
                 <form @submit.prevent="submit">
+                    <p v-if="errorMessage" class="error-message text-danger mb-4">{{errorMessage}}</p>
                     <div class="mb-3">
                         <label for="username" class="form-label">Username</label>
                         <input v-model="registerData.username" type="text" class="form-control" id="username">
+                    </div>
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Nombre</label>
+                        <input v-model="registerData.nombre" type="text" class="form-control" id="username">
+                    </div>
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Apellido Paterno</label>
+                        <input v-model="registerData.apPaterno" type="text" class="form-control" id="username">
+                    </div>
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Apellido Materno</label>
+                        <input v-model="registerData.apMaterno" type="text" class="form-control" id="username">
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email address</label>
@@ -30,10 +44,10 @@
 
 /* eslint-disable */
 
-// @ts-ignore
-import {useAuthStore} from '../../stores/auth'
-import { reactive, ref } from "vue";
-import { useRouter } from 'vue-router';
+    // @ts-ignore
+    import {useAuthStore} from '../../stores/auth'
+    import { reactive, ref } from "vue";
+    import { useRouter } from 'vue-router';
 
 
     const authStore = useAuthStore()
@@ -42,6 +56,9 @@ import { useRouter } from 'vue-router';
 
     const registerData = reactive({
         username: "",
+        nombre: "",
+        apPaterno: "",
+        apMaterno: "",
         email: "",
         password: "",
         passwordConfirm: ""
@@ -51,8 +68,7 @@ import { useRouter } from 'vue-router';
     const errorMessage = ref()
 
     async function submit(){
-        console.log(registerData)
-        /*authStore.register(registerData)
+        await authStore.register(registerData)
         .then( res => {
             router.replace({name : 'Login'})
             console.log("Res", res)
@@ -60,7 +76,7 @@ import { useRouter } from 'vue-router';
             errorMessage.value = err.message
             return errorMessage
         })
-        */
+        
     }
 </script>
 

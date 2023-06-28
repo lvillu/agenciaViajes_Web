@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import useApi from '@/composables/useApi';
+import useApi from '../composables/useApi';
 
 export const useAuthStore = defineStore('auth', {
     state: () => {
@@ -15,7 +15,7 @@ export const useAuthStore = defineStore('auth', {
     actions: {
         async login(payload) {
             try {
-                const { data } = await useApi.post('/v1/usuarios/login', payload);
+                const { data } = await useApi().post('/v1/usuarios/login', payload);
                 this.accessToken = data === null || data === void 0 ? void 0 : data.accessToken;
                 return data;
             }
@@ -25,7 +25,7 @@ export const useAuthStore = defineStore('auth', {
         },
         async register(payload) {
             try {
-                const { data } = await useApi.post('/v1/usuarios/registrar', payload);
+                const { data } = await useApi().post('/v1/usuarios/registrar', payload);
                 return data;
             }
             catch (error) {
@@ -34,7 +34,7 @@ export const useAuthStore = defineStore('auth', {
         },
         async getUser() {
             try {
-                const { data } = await useApi.get('/v1/usuarios/usuario');
+                const { data } = await useApi().get('/v1/usuarios/usuario');
                 this.user = data;
                 return data;
             }
@@ -44,7 +44,7 @@ export const useAuthStore = defineStore('auth', {
         },
         async logout() {
             try {
-                const { data } = await useApi.post('/v1/usuarios/logout');
+                const { data } = await useApi().post('/v1/usuarios/logout');
                 this.accessToken = "";
                 this.user = {};
                 return data;
@@ -55,7 +55,7 @@ export const useAuthStore = defineStore('auth', {
         },
         async refresh() {
             try {
-                const { data } = await useApi.post('/v1/usuarios/refresh');
+                const { data } = await useApi().post('/v1/usuarios/refresh');
                 this.accessToken = data.accessToken;
                 return data;
             }
