@@ -41,10 +41,9 @@
     const errorMessage = ref()
 
     async function loginFunc(){
-        console.log("Hola", loginData)
         await authStore.login(loginData)
         .then( res => {
-            router.replace({name : 'user'})
+            router.replace({name : 'Usuario'})
         }).catch( err => {
             errorMessage.value = err.message
             return errorMessage

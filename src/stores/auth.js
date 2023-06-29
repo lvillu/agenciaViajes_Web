@@ -16,7 +16,10 @@ export const useAuthStore = defineStore('auth', {
         async login(payload) {
             try {
                 const { data } = await useApi().post('/v1/usuarios/login', payload);
-                this.accessToken = data === null || data === void 0 ? void 0 : data.accessToken;
+                if (data.success){
+                    let loginObj = data.data
+                    this.accessToken = data === null || data === void 0 ? void 0 : loginObj.accessToken;
+                }
                 return data;
             }
             catch (error) {
@@ -26,7 +29,6 @@ export const useAuthStore = defineStore('auth', {
         async register(payload) {
             try {
                 const { data } = await useApi().post('/v1/usuarios/registrar', payload);
-                console.log("Resultado", data)
                 return data;
             }
             catch (error) {
@@ -36,7 +38,10 @@ export const useAuthStore = defineStore('auth', {
         async getUser() {
             try {
                 const { data } = await useApi().get('/v1/usuarios/usuario');
-                this.user = data;
+                if (data.success){
+                    let userObj = data.data
+                    this.user = userObj;
+                }
                 return data;
             }
             catch (error) {
@@ -57,7 +62,10 @@ export const useAuthStore = defineStore('auth', {
         async refresh() {
             try {
                 const { data } = await useApi().post('/v1/usuarios/refresh');
-                this.accessToken = data.accessToken;
+                if (data.success){
+                    let refreshObj = data.data
+                    this.accessToken = refreshObj.accessToken;
+                }
                 return data;
             }
             catch (error) {
