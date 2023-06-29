@@ -9,7 +9,7 @@ export const useAuthStore = defineStore('auth', {
         };
     },
     getters: {
-        user: (state) => state.user,
+        userDetail: (state) => state.user,
         isAuthenticated: (state) => { var _a; return ((_a = state.user) === null || _a === void 0 ? void 0 : _a.id) ? true : false; }
     },
     actions: {
