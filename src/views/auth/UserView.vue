@@ -29,7 +29,6 @@
     const authStore = useAuthStore()
 
     const user = computed(() => {
-        console.log("auth: ", authStore.userDetail)
         return authStore.userDetail
     })
 

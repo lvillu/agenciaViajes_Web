@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import useApi from '../composables/useApi';
+import {useApi, useApiPrivate} from '../composables/useApi';
 
 export const useAuthStore = defineStore('auth', {
     state: () => {
@@ -13,12 +13,22 @@ export const useAuthStore = defineStore('auth', {
         isAuthenticated: (state) => { var _a; return ((_a = state.user) === null || _a === void 0 ? void 0 : _a.id) ? true : false; }
     },
     actions: {
+        async attempt(){
+            try {
+                await this.refresh()
+                await this.getUser()
+            } catch (error) {
+                return
+            }
+            return
+        },
         async login(payload) {
             try {
                 const { data } = await useApi().post('/v1/usuarios/login', payload);
                 if (data.success){
                     let loginObj = data.data
                     this.accessToken = data === null || data === void 0 ? void 0 : loginObj.accessToken;
+                    await this.getUser()
                 }
                 return data;
             }
@@ -37,7 +47,7 @@ export const useAuthStore = defineStore('auth', {
         },
         async getUser() {
             try {
-                const { data } = await useApi().get('/v1/usuarios/usuario');
+                const { data } = await useApiPrivate().get('/v1/usuarios/usuario');
                 if (data.success){
                     let userObj = data.data
                     this.user = userObj;
@@ -50,7 +60,7 @@ export const useAuthStore = defineStore('auth', {
         },
         async logout() {
             try {
-                const { data } = await useApi().post('/v1/usuarios/logout');
+                const { data } = await useApiPrivate().post('/v1/usuarios/logout');
                 this.accessToken = "";
                 this.user = {};
                 return data;
