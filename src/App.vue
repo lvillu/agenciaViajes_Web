@@ -1,10 +1,14 @@
+<script setup>
+import { RouterView } from 'vue-router'
+import NavBarVue from "./components/NavBar.vue"
+</script>
+
+
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link> | 
-     <router-link to="/todos">Todos</router-link>
-  </nav>
-  <router-view/>
+  <div id="app">
+    <NavBarVue />
+    <RouterView />
+  </div>
 </template>
 
 <style lang="scss">

@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import { useAuthStore } from '@/stores/auth'
 
 const routes = [
   {
@@ -8,27 +9,36 @@ const routes = [
     component: HomeView
   },
   {
+    path: '/login',
+    name: 'Login',
+    component: () => import(/* webpackChunkName: "about" */ '../views/auth/LoginView.vue'),
+    meta: { requiresGuest: true}
+  },
+  {
+    path: '/register',
+    name: 'Registro',
+    component: () => import(/* webpackChunkName: "about" */ '../views/auth/RegisterView.vue'),
+    meta: { requiresGuest: true}
+  },
+  {
+    path: '/user',
+    name: 'Usuario',
+    component: () => import(/* webpackChunkName: "about" */ '../views/auth/UserView.vue'),
+    meta: { requiresAuth: true}
+  },
+  {
     path: '/todos',
     name: 'todos',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/TodosView.vue')
   },
   {
     path: '/todo/:_id',
     name: 'Operador - Detalles',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/TodoDetails.vue')
   },
   {
     path: '/about',
     name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
   }
 ]
@@ -36,6 +46,20 @@ const routes = [
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
   routes
+})
+
+/* eslint-disable */
+router.beforeEach((to, from) => {
+
+  const store = useAuthStore()
+
+  console.log("Routes: ", store.isAuthenticated)
+
+  if(to.meta.requiresAuth && !store.isAuthenticated){
+    return { name: 'Login',  query: { redirect : to.fullPath}}
+  } else if (to.meta.requiresGuest && store.isAuthenticated){
+    return { name: 'home'}
+  }
 })
 
 export default router
