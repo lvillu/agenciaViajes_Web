@@ -3,15 +3,17 @@
     <h1>Operadores</h1>
 
     <br />
+
+    <!-- Button trigger modal -->
     <button
       type="button"
       class="btn btn-primary"
-      data-toggle="modal"
-      data-target="#myModal"
-      @click="mostrarModal"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal"
     >
       Agregar Operador
     </button>
+
     <br />
 
     <Suspense>
@@ -44,29 +46,44 @@
       <template #fallback> Loading... </template>
     </Suspense>
 
+    <br />
+
     <!-- Modal -->
-    <div id="myModal" class="modal fade" role="dialog">
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
       <div class="modal-dialog">
-        <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal">
-              &times;
-            </button>
-            <h4 class="modal-title">Modal Header</h4>
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
           </div>
-          <div class="modal-body">
-            <p>Some text in the modal.</p>
-          </div>
+          <div class="modal-body">...</div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              data-bs-dismiss="modal"
+            >
               Close
             </button>
+            <button type="button" class="btn btn-primary">Save changes</button>
           </div>
         </div>
       </div>
     </div>
   </div>
+
+  
 </template>
 
 
@@ -85,7 +102,6 @@ const operadores = computed(() => {
 async function getOperadores() {
   await operadorAuth.obtenerOperadores();
 }
-
 
 onMounted(async () => {
   await getOperadores();
