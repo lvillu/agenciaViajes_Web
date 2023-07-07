@@ -27,6 +27,12 @@ const routes = [
     meta: { requiresAuth: true}
   },
   {
+    path: '/operador',
+    name: 'Operador',
+    component: () => import(/* webpackChunkName: "about" */ '../views/operadores/OperadorView.vue'),
+    meta: { requiresAuth: true}
+  },
+  {
     path: '/todos',
     name: 'todos',
     component: () => import(/* webpackChunkName: "about" */ '../views/TodosView.vue')
@@ -52,8 +58,6 @@ const router = createRouter({
 router.beforeEach((to, from) => {
 
   const store = useAuthStore()
-
-  console.log("Routes: ", store.isAuthenticated)
 
   if(to.meta.requiresAuth && !store.isAuthenticated){
     return { name: 'Login',  query: { redirect : to.fullPath}}

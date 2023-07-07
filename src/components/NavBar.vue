@@ -18,7 +18,11 @@
           <li class="nav-item">
             <router-link :to="{ name: 'home'}" class="nav-link active" aria-current="page" >Home</router-link>
           </li>
+          <li v-if="isAuthenticated" class="nav-item">
+            <router-link :to="{ name: 'Operador'}" class="nav-link active" aria-current="page" >Operadores</router-link>
+          </li>
         </ul>
+        <!--    SECCION DE LOGIN    -->
         <ul class="navbar-nav mx-2 mb-2 mb-lg-0">
           <li v-if="isAuthenticated" class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
