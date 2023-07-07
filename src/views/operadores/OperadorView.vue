@@ -10,6 +10,7 @@
       class="btn btn-primary"
       data-bs-toggle="modal"
       data-bs-target="#exampleModal"
+      @click="agregarOperador()"
     >
       Agregar Operador
     </button>
@@ -35,7 +36,7 @@
               <td>{{ item.emailContacto }}</td>
               <td>{{ item.telefono }}</td>
               <td>
-                <button type="button" class="btn btn-primary">Modificar</button>
+                <button type="button" class="btn btn-primary" @click="modificarOperador(item._id)">Modificar</button>
                 &nbsp;
                 <button type="button" class="btn btn-danger">Eliminar</button>
               </td>
@@ -67,7 +68,19 @@
               aria-label="Close"
             ></button>
           </div>
-          <div class="modal-body">...</div>
+          <div class="modal-body">
+            <Suspense>
+              <template #default>
+                <div v-if="operador" class="card card-body mt-4">
+                  Operador Existente
+                </div>
+                <div v-else class="card card-body mt-4">
+                  Nuevo Operador
+                </div>
+              </template>
+              <template #fallback> Loading... </template>
+            </Suspense>
+          </div>
           <div class="modal-footer">
             <button
               type="button"
@@ -82,8 +95,6 @@
       </div>
     </div>
   </div>
-
-  
 </template>
 
 
@@ -102,6 +113,15 @@ const operadores = computed(() => {
 async function getOperadores() {
   await operadorAuth.obtenerOperadores();
 }
+
+function modificarOperador(id){
+  console.log("Id", id)
+}
+
+function agregarOperador(id){
+  console.log("Nuevo")
+}
+
 
 onMounted(async () => {
   await getOperadores();
