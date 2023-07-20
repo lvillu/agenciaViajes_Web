@@ -8,7 +8,7 @@
     <button
       type="button"
       class="btn btn-primary"
-      @click="vistaDetalle()"
+      @click="nuevoOperador()"
     >
       Agregar Operador
     </button>
@@ -34,7 +34,7 @@
               <td>{{ item.emailContacto }}</td>
               <td>{{ item.telefono }}</td>
               <td>
-                <button type="button" class="btn btn-primary" @click="vistaDetalle(item)">Modificar</button>
+                <button type="button" class="btn btn-primary" @click="vistaDetalle(item._id)">Modificar</button>
                 &nbsp;
                 <button type="button" class="btn btn-danger">Eliminar</button>
               </td>
@@ -56,6 +56,9 @@
 
 import { useOperadorStore } from "../../stores/operador";
 import { computed, onMounted } from "vue";
+import { useRouter } from 'vue-router';
+
+const router = useRouter()
 
 const operadorAuth = useOperadorStore();
 
@@ -67,10 +70,13 @@ async function getOperadores() {
   await operadorAuth.obtenerOperadores();
 }
 
-function vistaDetalle(operador = {}){
-  console.log("Operador", operador)
+function vistaDetalle(id){
+  router.push({ name: 'OperadorDetalle', params: { id: id }})
 }
 
+function nuevoOperador(){
+  router.push({ name: 'OperadorNuevo'})
+}
 
 onMounted(async () => {
   await getOperadores();

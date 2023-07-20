@@ -74,7 +74,6 @@
             errorMessage.value = err.message
             return errorMessage
         })
-        
     }
 </script>
 

@@ -39,5 +39,27 @@ export const useOperadorStore = defineStore('operador', {
                 throw error.response.message;
             }
         },
+        async agregarOperador(payload) {
+            try {
+                const { data } = await useApiPrivate().post('/v1/operadores/operador', payload);
+                if (data.success){
+                    let operadorObj = data.data
+                    this.operador = operadorObj;
+                }
+                return data;
+            }
+            catch (error) {
+                throw error.response.message;
+            }
+        },
+        async actualizarOperador(id, payload) {
+            try {
+                const { data } = await useApiPrivate().put(`/v1/operadores/operador/${id}`, payload);
+                return data;
+            }
+            catch (error) {
+                throw error.response.message;
+            }
+        },
     }
 });

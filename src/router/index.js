@@ -33,6 +33,18 @@ const routes = [
     meta: { requiresAuth: true}
   },
   {
+    path: '/operadorNuevo',
+    name: 'OperadorNuevo',
+    component: () => import(/* webpackChunkName: "about" */ '../views/operadores/OperadorNuevoView.vue'),
+    meta: { requiresAuth: true}
+  },
+  {
+    path: '/operadorDetalle/:id',
+    name: 'OperadorDetalle',
+    component: () => import(/* webpackChunkName: "about" */ '../views/operadores/OperadorDetalleView.vue'),
+    meta: { requiresAuth: true}
+  },
+  {
     path: '/todos',
     name: 'todos',
     component: () => import(/* webpackChunkName: "about" */ '../views/TodosView.vue')
