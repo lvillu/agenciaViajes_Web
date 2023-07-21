@@ -1,15 +1,43 @@
 <template>
-    <h1>Detalle Operador</h1>
-
     <div id="operador">
         <div class="container">
             <Suspense>
                 <template #default>
-                    <div v-if="operador" class="card card-body mt-4">
-                        <h5 class="card-title">Operador: {{operador.nombre}}</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">Email: {{operador.emailContacto}}</h6>
-                        <h6 class="card-subtitle mb-2 text-muted">Nombre contacto: {{operador.nombreContacto}}</h6>
-                        <h6 class="card-subtitle mb-2 text-muted">Telefono: {{operador.telefono}}</h6>
+                    <div v-if="operadorDet" class="card card-body mt-4">
+                        <form @submit.prevent="submit" class="row" >
+                            <h1>Editar Operador</h1>
+                            <p v-if="errorMessage" class="error-message text-danger mb-4">{{errorMessage}}</p>
+
+                            <div class="mb-3 col-8">
+                                <label for="operador" class="form-label">Operador</label>
+                                <input v-model="operadorDet.nombre" type="text" class="form-control" id="operador" placeholder="Nombre del operador">
+                            </div>
+
+                            <div class="mb-3 col-3">
+                                <label for="siglas" class="form-label">Siglas</label>
+                                <input v-model="operadorDet.siglas" type="text" class="form-control" id="siglas" placeholder="Siglas del operador">
+                            </div>
+
+                            <div class="mb-3 col-8">
+                                <label for="nombreContacto" class="form-label">Nombre Contacto</label>
+                                <input v-model="operadorDet.nombreContacto" type="text" class="form-control" id="nombreContacto" placeholder="Nombre del contacto del operador">
+                            </div>
+
+                            <div class="mb-3 col-3">
+                                <label for="telefono" class="form-label">Telefono</label>
+                                <input v-model="operadorDet.telefono" type="tel" class="form-control" id="telefono" placeholder="Telefono">
+                            </div>
+
+                            <div class="mb-3 col-8">
+                                <label for="email" class="form-label">Email</label>
+                                <input v-model="operadorDet.emailContacto" type="email" class="form-control" id="email" placeholder="Email">
+                            </div>
+
+                            <div class="mb-3 mt-4 col-3 d-sm-flex">
+                                <button type="submit" class="btn btn-primary m-1 p-2">Guardar</button>
+                                <button type="button" @click="Regresar" class="btn btn-primary m-1 p-2">Regresar</button>
+                            </div>
+                        </form>
                     </div>
                 </template>
                 <template #fallback>
@@ -24,12 +52,15 @@
 
     /* eslint-disable */
     import { useOperadorStore } from "../../stores/operador";
-    import { computed, onMounted } from "vue";
+    import { computed, onMounted, ref } from "vue";
     import { useRouter, useRoute } from 'vue-router';
 
     const route = useRoute();
     const router = useRouter();
     const operadorId = computed( () => route.params.id);
+    const operadorStore = useOperadorStore();
+
+    const errorMessage = ref()
 
     onMounted(async () => {
         await getOperador();
@@ -37,12 +68,26 @@
 
     const operadorAuth = useOperadorStore();
 
-    const operador = computed(() => {
+    const operadorDet = computed(() => {
         return operadorAuth.operador
     });
 
     async function getOperador() {
         await operadorAuth.obtenerOperador(operadorId.value);
+    }
+
+    async function submit(){
+        await operadorStore.actualizarOperador(operadorId.value, operadorDet.value)
+        .then( res => {
+            router.replace({name : 'Operador'})
+        }).catch( err => {
+            errorMessage.value = err.message
+            return errorMessage
+        })
+    }
+
+    function Regresar(){
+        router.replace({name : 'Operador'})
     }
 
     
