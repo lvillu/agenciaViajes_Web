@@ -21,6 +21,9 @@
           <li v-if="isAuthenticated" class="nav-item">
             <router-link :to="{ name: 'Operador'}" class="nav-link active" aria-current="page" >Operadores</router-link>
           </li>
+          <li v-if="isAuthenticated" class="nav-item">
+            <router-link :to="{ name: 'Venta'}" class="nav-link active" aria-current="page" >Ventas</router-link>
+          </li>
         </ul>
         <!--    SECCION DE LOGIN    -->
         <ul class="navbar-nav mx-2 mb-2 mb-lg-0">

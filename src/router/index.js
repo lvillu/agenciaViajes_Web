@@ -58,6 +58,24 @@ const routes = [
     path: '/about',
     name: 'about',
     component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
+  },
+  {
+    path: '/venta',
+    name: 'Venta',
+    component: () => import(/* webpackChunkName: "about" */ '../views/ventas/VentaView.vue'),
+    meta: { requiresAuth: true}
+  },
+  {
+    path: '/ventaNuevo',
+    name: 'VentaNuevo',
+    component: () => import(/* webpackChunkName: "about" */ '../views/ventas/VentaNuevoView.vue'),
+    meta: { requiresAuth: true}
+  },
+  {
+    path: '/ventaDetalle/:id',
+    name: 'VentaDetalle',
+    component: () => import(/* webpackChunkName: "about" */ '../views/ventas/VentaDetalleView.vue'),
+    meta: { requiresAuth: true}
   }
 ]
 
