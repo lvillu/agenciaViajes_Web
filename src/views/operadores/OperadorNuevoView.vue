@@ -77,7 +77,6 @@
         router.replace({name : 'Operador'})
     }
     
-    
 </script>
 
 <style lang="scss" scoped>
